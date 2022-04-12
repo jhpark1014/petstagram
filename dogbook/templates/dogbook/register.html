@@ -1,0 +1,246 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <title>회원가입 하기</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+<link href="/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Favicons -->
+<link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
+<meta name="theme-color" content="#7952b3">
+
+<script>
+    function showPopup() {
+        window.open("popup", "a", "width=400, height=300, left=100, top=50");
+    }
+</script>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      /* The message box is shown when the user clicks on the password field */
+        #message {
+          display:none;
+          background: #f1f1f1;
+          color: #000;
+          position: relative;
+          padding: 20px;
+          margin-top: 10px;
+        }
+
+        #message p {
+          padding: 10px 35px;
+          font-size: 18px;
+        }
+
+        /* Add a green text color and a checkmark when the requirements are right */
+        .valid {
+          color: green;
+        }
+
+        /* Add a red text color and an "x" icon when the requirements are wrong */
+        .invalid {
+          color: red;
+        }
+
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+      <h2>회원가입 하기</h2>
+      <p class="lead">Petstagram에 오신 것을 환영합니다</p>
+    </div>
+        <h4 class="mb-3">정보 입력</h4>
+        <form action="/dogbook/create_process/" method="POST">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="full_name" class="form-label">이름</label>
+              <input type="text" class="form-control" name="full_name" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid name is required.
+              </div>
+            </div>
+
+            <div class="col-10">
+              <label for="username" class="form-label">아이디</label>
+              <div class="input-group has-validation">
+                <span class="input-group-text">@</span>
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+              <div class="invalid-feedback">
+                  Your username is required.
+              </div>
+                  &nbsp
+                <div class="col-2">
+                  <button class="w-50 btn btn-primary btn-sm" type="submit" id="id_check_btn" onclick="showPopup()">아이디 체크</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="email" class="form-label">이메일</label>
+              <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="phoneno" class="form-label">전화번호 <span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" name="phoneno" placeholder="000-0000-0000">
+            </div>
+
+            <div class="col-12">
+              <label for="passwd" class="form-label">비밀번호</label>
+              <input type="password" class="form-control" name="passwd" id="passwd" placeholder="비밀번호" required>
+            </div>
+
+            <div id="message">
+              <p id="vali" class="invalid">비밀번호는 영어 소문자/대문자, 숫자를 포함해 8자 이상이어야 합니다.</p>
+            </div>
+
+            <script>
+                let myInput = document.getElementById("passwd");
+                let vali = document.getElementById("vali")
+                let btn = document.getElementById("register")
+
+                // When the user clicks on the password field, show the message box
+                myInput.onfocus = function() {
+                  document.getElementById("message").style.display = "block";
+                }
+
+                // When the user clicks outside of the password field, hide the message box
+                myInput.onblur = function() {
+                  document.getElementById("message").style.display = "none";
+                }
+
+                // When the user starts to type something inside the password field
+                myInput.onkeyup = function() {
+                  // Validate lowercase letters
+                  var lowerCaseLetters = /[a-z]/g;
+                  var boo1 = 0
+                  if(myInput.value.match(lowerCaseLetters)) {
+                    boo1 = 1
+                  } else {
+                    boo1 = 0
+                  }
+
+                  // Validate capital letters
+                  var upperCaseLetters = /[A-Z]/g;
+                  var boo2 = 0
+                  if(myInput.value.match(upperCaseLetters)) {
+                    boo2 = 1
+                  } else {
+                    boo2 = 0
+                  }
+
+                  // Validate numbers
+                  var numbers = /[0-9]/g;
+                  var boo3 = 0
+                  if(myInput.value.match(numbers)) {
+                    boo3 = 1
+                  } else {
+                    boo3 = 0
+                  }
+
+                  // Validate length
+                  var boo4 = 0
+                  if(myInput.value.length >= 8) {
+                    boo4 = 1
+                  } else {
+                    boo4 = 0
+                  }
+
+                  if (boo1 == 1 & boo2 == 1 & boo3 == 1 & boo4 == 1) {
+                      vali.classList.remove('invalid')
+                      vali.classList.add('valid')
+                  }
+                  else {
+                      vali.classList.remove('valid')
+                      vali.classList.add('invalid')
+                  }
+
+                }
+            </script>
+
+            <div class="col-md-5">
+              <label for="country" class="form-label">반려동물 종</label>
+              <select class="form-select" id="country" required>
+                <option value="">Choose...</option>
+                <option>강아지</option>
+                <option>고양이</option>
+                <option>그 외</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a valid country.
+              </div>
+            </div>
+          </div>
+
+
+          <br>
+{#        <script>#}
+{#            btn.addEventListener("change", stateChange)#}
+{##}
+{#            function stateChange() {#}
+{#                if (vali.className == 'valid') {#}
+{#                    btn.disabled = false#}
+{#                }#}
+{#                else {#}
+{#                    btn.disabled = true#}
+{#                }#}
+{#            }#}
+{#        </script>#}
+
+          <button class="w-100 btn btn-primary btn-lg" type="submit" id="register">회원가입 하기</button>
+
+        </form>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2022- petstagram</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>
+
+
+    <script src="/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+      <script src="form-validation.js"></script>
+  </body>
+</html>
