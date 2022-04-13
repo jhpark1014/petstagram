@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from dogbook.models import users
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -59,9 +59,16 @@ def login(request):
     data = cursor.fetchall()
 
     if not data:
-        # context = {'form': form, 'error': '이 아이디는 사용중입니다. 다른 아이디를 입력하세요.'}
         # messages.success(request, f'This username can be used')
+        # context = get_object_or_404(users, username=username)
         return render(request, 'dogbook/login_fail.html')
     else:
         # messages.info(request, f'This username is already in use')
-        return render(request, 'dogbook/login_success.html')
+        usr = get_object_or_404(users, username=user)
+        context = {'thisuser': usr}
+        return render(request, 'dogbook/login_success.html', context)
+
+
+def profile(request, username):
+    username = get_object_or_404(users, username=username)
+    return render(request, 'profile.html')

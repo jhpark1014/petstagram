@@ -6,6 +6,10 @@
 </head>
 <body>
 로그인 성공
-<form
+<form action="/dogbook/{{ thisuser.username }}/" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="username" value="{{ thisuser.username }}">
+    <button type="submit">내 프로필 가기</button>
+</form>
 </body>
 </html>
