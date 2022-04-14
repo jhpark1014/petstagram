@@ -22,7 +22,8 @@
 
 <script>
     function showPopup() {
-        window.open("popup", "a", "width=400, height=300, left=100, top=50");
+        let usr = document.getElementById("username").value
+        window.open(`popup/${usr}`, "a", "width=400, height=300, left=100, top=50");
     }
 </script>
 
@@ -97,13 +98,13 @@
               <label for="username" class="form-label">아이디</label>
               <div class="input-group has-validation">
                 <span class="input-group-text">@</span>
-                <input type="text" class="form-control" name="username" placeholder="Username" required>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
               <div class="invalid-feedback">
                   Your username is required.
               </div>
                   &nbsp
                 <div class="col-2">
-                  <button class="w-50 btn btn-primary btn-sm" type="submit" id="id_check_btn" onclick="showPopup()">아이디 체크</button>
+                  <button class="w-50 btn btn-primary btn-sm" type="button" id="id_check_btn" name="id_check_btn" onclick="showPopup()">아이디 체크</button>
                 </div>
               </div>
             </div>
@@ -223,7 +224,7 @@
 {#            }#}
 {#        </script>#}
 
-          <button class="w-100 btn btn-primary btn-lg" type="submit" id="register">회원가입 하기</button>
+          <input class="w-100 btn btn-primary btn-lg" type="submit" name="register" id="register" value="회원가입 하기">
 
         </form>
   </main>

@@ -15,14 +15,30 @@ def register(request):
 
 
 def create_process(request):
-    user = users()
-    user.username = request.POST.get('username')
-    user.full_name = request.POST.get('full_name')
-    user.email = request.POST.get('email')
-    user.passwd = request.POST.get('passwd')
-    user.phoneno = request.POST.get('phoneno')
-    user.save()
-    return render(request, 'dogbook/success.html')
+    new_user = request.POST.get('username')
+    con = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='wlgus7921', db='dogstagram_db', charset='utf8')
+    cursor = con.cursor(pymysql.cursors.DictCursor)
+    stmt = "SELECT username FROM dogbook_users WHERE username='{}'"
+    stmt = stmt.format(new_user)
+    cursor.execute(stmt)
+    data = cursor.fetchall()
+
+    if not data:
+        user = users()
+        user.username = request.POST.get('username')
+        user.full_name = request.POST.get('full_name')
+        user.email = request.POST.get('email')
+        user.passwd = request.POST.get('passwd')
+        user.phoneno = request.POST.get('phoneno')
+        user.save()
+        return render(request, 'dogbook/success.html')
+
+    else:
+        return render(request, 'dogbook/login_fail.html')
+
+    # if 'id_check_btn' in request.POST:
+    #     user = request.POST.get('username')
+    #     return render(request, 'dogbook/popup.html')
 
 
 def id_check(request):
@@ -44,8 +60,11 @@ def id_check(request):
 
 
 def open_popup(request):
-    if request.method == 'GET':
-        return render(request, 'dogbook/popup.html')
+    return render(request, 'dogbook/popup.html')
+
+def open_popup2(request, username):
+    context = {'usr': username}
+    return render(request, 'dogbook/popup.html', context)
 
 
 def login(request):
@@ -70,5 +89,14 @@ def login(request):
 
 
 def profile(request, username):
-    username = get_object_or_404(users, username=username)
-    return render(request, 'profile.html')
+    usr = get_object_or_404(users, username=username)
+    context = {'thisuser': usr}
+    return render(request, 'dogbook/profile.html', context)
+
+
+def pet_register(request):
+    return render(request, 'dogbook/pet_register.html')
+
+
+def missing(request):
+    return render(request, 'dogbook/missing.html')
