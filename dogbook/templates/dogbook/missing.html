@@ -3,8 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>실종신고하기</title>
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    <script type="text/javascript">
+        let imgElement = document.getElementById('imageSrc');
+        let inputElement = document.getElementById('fileInput');
+        inputElement.addEventListener('change', (e) => {
+        imgElement.src = URL.createObjectURL(e.target.files[0]);
+        }, false);
+        imgElement.onload = function() {
+            let mat = cv.imread(imgElement);
+            cv.imshow('canvasOutput', mat);
+            mat.delete();
+          };
+          function onOpenCvReady() {
+            document.getElementById('status').innerHTML = '';
+          }
+    </script>
+
+
 </head>
 <body>
     반려동물 실종신고 하기
+    <div class="card shadow-sm" width="50%">
+        <!-- <img id="imageSrc" src="base.jpg"/> -->
+        <img id="img" src="base.jpg"></img>
+        <input class="btn btn-sm btn-outline-secondary" id="input" type="file"  name="file" />
+        <!-- <input id="input" type="file" name="file" /> -->
+        <h1 id='result'></h1>
+
+        <div class="card-body">
+          <p class="card-text">목격자</p>
+
+          <!-- <input class="btn btn-sm btn-outline-secondary" type="file" id="fileInput" name="file" /> -->
+
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            </div>
+            <small class="text-muted">9 mins</small>
+          </div>
+        </div>
+      </div>
 </body>
 </html>

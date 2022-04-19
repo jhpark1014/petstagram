@@ -78,11 +78,9 @@ def login(request):
     data = cursor.fetchall()
 
     if not data:
-        # messages.success(request, f'This username can be used')
         # context = get_object_or_404(users, username=username)
         return render(request, 'dogbook/login_fail.html')
     else:
-        # messages.info(request, f'This username is already in use')
         usr = get_object_or_404(users, username=user)
         context = {'thisuser': usr}
         return render(request, 'dogbook/login_success.html', context)

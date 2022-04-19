@@ -6,11 +6,11 @@
 </head>
 <body>
     {{ thisuser.username }}의 프로필 페이지 ~~
-    <a href="/dogbook/pet_register/">
-        <input type="submit" value="내 반려동물 등록하기">
+    <a href="{% url 'dogbook:pet_register' %}">
+        <input type="button" value="내 반려동물 등록하기">
     </a>
-    <a href="/dogbook/missing/">
-        <input type="submit" value="실종신고 하기">
+    <a href="{% url 'dogbook:missing' %}">
+        <input type="button" value="실종신고 하기">
     </a>
 </body>
 </html>
