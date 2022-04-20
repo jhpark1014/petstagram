@@ -16,3 +16,13 @@ class users(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class Image(models.Model):
+    author = models.CharField(max_length=20, default='hello')
+    name = models.CharField(max_length=500)
+    imagefile = models.FileField(upload_to='images/', null=True, verbose_name="")
+    upload_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name + ": " + str(self.imagefile)

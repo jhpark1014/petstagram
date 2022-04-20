@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from dogbook.models import users
+from dogbook.models import users, Image
 from django.contrib import messages
+from dogbook.forms import ImageForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import pymysql
+from dogbook import models
 
 
 def index(request):
@@ -97,4 +99,36 @@ def pet_register(request):
 
 
 def missing(request):
-    return render(request, 'dogbook/missing.html')
+    return render(request, 'dogbook/practice.html')
+
+
+def upload_page(request, username):
+    usr = get_object_or_404(users, username=username)
+    context = {'thisuser': usr}
+    return render(request, 'dogbook/upload_page.html', context)
+
+
+def upload(request, username):
+    if request.method == "POST":
+        # Fetching the form data
+        # contents = request.POST["content"]
+        # upload_image = request.FILES["upload_image"]
+        # author = request.POST['author']
+
+        # Saving the information in the database
+        # document = models.Image(
+        #     name = contents,
+        #     imagefile = upload_image,
+        #     author = author
+        # )
+        # document.save()
+        doc = Image()
+        doc.author = request.POST.get('author')
+        doc.name = request.POST['content']
+        doc.imagefile = request.FILES['upload_image']
+        doc.save()
+
+    documents = get_object_or_404(Image, username=username)
+    context = {'my_posts': documents}
+
+    return render(request, 'dogbook/profile.html', context)

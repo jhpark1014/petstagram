@@ -12,5 +12,29 @@
     <a href="{% url 'dogbook:missing' %}">
         <input type="button" value="실종신고 하기">
     </a>
+    <form action="{% url 'dogbook:upload_page' thisuser.username %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" value={{ thisuser.username }}>
+        <input type="submit" value="사진 업로드">
+    </form>
+    <button onclick="location.href='upload/';">move page</button>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>File Path</th>
+            <th>Upload Date & Time</th>
+        </tr>
+        {% for file in files %}
+            <tr>
+                <td>{{ file.id }}</td>
+                <td>{{ file.title }}</td>
+                <td>{{ file.uploadedFile.url }}</td>
+                <td>{{ file.dateTimeOfUpload }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
 </body>
 </html>

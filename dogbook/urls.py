@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from dogbook import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'dogbook' # namespace
 
@@ -16,8 +18,17 @@ urlpatterns = [
     path('pet_register/', views.pet_register, name='pet_register'),
     path('missing/', views.missing, name='missing'),
     path('<username>/', views.profile, name='profile'),
+    path('<str:username>/upload/', views.upload_page, name='upload_page'),
+    path('<str:username>/uploading/', views.upload, name='upload'),
+
     # path('id_check/', views.request_page, name='id_check')
     # path('<int:question_id>', views.detail, name = 'detail')
     # path('<int:question_id>/vote/', views.vote, name='vote'),
     # path('<int:question_id>/results/', views.results, name='results')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )
