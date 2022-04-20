@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>Upload Images</title>
+</head>
+<body>
+
+<h1>Image Uploader</h1>
+<form enctype="multipart/form-data" method="POST" action="">
+    {% csrf_token %}
+    <input class="btn btn-sm btn-outline-secondary" id="input" type="file" name="file" />
+    {{ form.as_p }}
+    <input type="submit" value="Upload"/>
+</form>
+
+<br><br>
+<img src='{{ MEDIA_URL }}{{ imagefile }}' id="img" width=50% />
+<br><br>
+<script>
+  const img = document.getElementById('img');
+    input.addEventListener('change', (e) => {
+        img.src = URL.createObjectURL(e.target.files[0]);
+    }, false);
+
+</script>
+</p>
+
+</body>
+</html>
