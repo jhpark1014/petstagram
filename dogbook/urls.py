@@ -19,7 +19,7 @@ urlpatterns = [
     path('missing/', views.missing, name='missing'),
     path('<username>/', views.profile, name='profile'),
     path('<str:username>/upload/', views.upload_page, name='upload_page'),
-    path('<str:username>/uploading/', views.upload, name='upload'),
+    path('<str:username>/uploading/', views.upload, name='uploading'),
 
     # path('id_check/', views.request_page, name='id_check')
     # path('<int:question_id>', views.detail, name = 'detail')

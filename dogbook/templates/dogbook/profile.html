@@ -14,10 +14,10 @@
     </a>
     <form action="{% url 'dogbook:upload_page' thisuser.username %}" method="POST">
         {% csrf_token %}
-        <input type="hidden" value={{ thisuser.username }}>
+{#        <input type="hidden" name="username" value="{{ thisuser.username }}">#}
         <input type="submit" value="사진 업로드">
     </form>
-    <button onclick="location.href='upload/';">move page</button>
+{#    <button onclick="location.href='upload/';">move page</button>#}
 
     <table>
         <tr>
@@ -26,12 +26,13 @@
             <th>File Path</th>
             <th>Upload Date & Time</th>
         </tr>
-        {% for file in files %}
+        {% for file in usrimgs %}
             <tr>
                 <td>{{ file.id }}</td>
-                <td>{{ file.title }}</td>
-                <td>{{ file.uploadedFile.url }}</td>
-                <td>{{ file.dateTimeOfUpload }}</td>
+                <td>{{ file.name }}</td>
+                <td>{{ file.imagefile.url }}</td>
+                <td>{{ file.upload_date }}</td>
+                <td><img src="{{file.imagefile.url}}"/></td>
             </tr>
         {% endfor %}
     </table>

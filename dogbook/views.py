@@ -1,7 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from dogbook.models import users, Image
 from django.contrib import messages
-from dogbook.forms import ImageForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import pymysql
@@ -90,7 +89,8 @@ def login(request):
 
 def profile(request, username):
     usr = get_object_or_404(users, username=username)
-    context = {'thisuser': usr}
+    imgs = Image.objects.filter(author=username)
+    context = {'thisuser': usr, 'usrimgs': imgs}
     return render(request, 'dogbook/profile.html', context)
 
 
@@ -111,24 +111,26 @@ def upload_page(request, username):
 def upload(request, username):
     if request.method == "POST":
         # Fetching the form data
-        # contents = request.POST["content"]
-        # upload_image = request.FILES["upload_image"]
-        # author = request.POST['author']
+        contents = request.POST["content"]
+        upload_image = request.FILES["upload_image"].name
+        author = request.POST['author']
 
         # Saving the information in the database
-        # document = models.Image(
-        #     name = contents,
-        #     imagefile = upload_image,
-        #     author = author
-        # )
-        # document.save()
-        doc = Image()
-        doc.author = request.POST.get('author')
-        doc.name = request.POST['content']
-        doc.imagefile = request.FILES['upload_image']
-        doc.save()
+        document = models.Image(
+            name = contents,
+            imagefile = upload_image,
+            author = author
+        )
+        document.save()
+        # doc = Image()
+        # doc.author = request.POST.get('author')
+        # doc.name = request.POST['content']
+        # doc.imagefile = upload_image
+        # doc.save()
 
-    documents = get_object_or_404(Image, username=username)
-    context = {'my_posts': documents}
+    # documents = get_object_or_404(Image, username=username)
+    # documents = Image.objects.all()
+    # context = {'my_posts': documents}
 
-    return render(request, 'dogbook/profile.html', context)
+    return render(request, 'dogbook/profile.html')
+# HttpResponseRedirect(reverse('dogbook:profile', args=(username,)))
