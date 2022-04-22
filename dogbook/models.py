@@ -26,3 +26,13 @@ class Image(models.Model):
 
     def __str__(self):
         return self.name + ": " + str(self.imagefile)
+
+
+class Uploads(models.Model):
+    author = models.CharField(max_length=20)
+    content = models.CharField(max_length=500)
+    imagefile = models.FileField(upload_to='images/')
+    upload_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name + ": " + str(self.imagefile)

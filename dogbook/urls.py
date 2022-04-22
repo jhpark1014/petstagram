@@ -17,7 +17,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('pet_register/', views.pet_register, name='pet_register'),
     path('missing/', views.missing, name='missing'),
-    path('<username>/', views.profile, name='profile'),
+    path('<str:username>/', views.profile, name='profile'),
     path('<str:username>/upload/', views.upload_page, name='upload_page'),
     path('<str:username>/uploading/', views.upload, name='uploading'),
 
@@ -28,7 +28,5 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT
-    )
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

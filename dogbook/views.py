@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from dogbook.models import users, Image
+from dogbook.models import users, Image, Uploads
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -89,7 +89,7 @@ def login(request):
 
 def profile(request, username):
     usr = get_object_or_404(users, username=username)
-    imgs = Image.objects.filter(author=username)
+    imgs = Uploads.objects.filter(author=username)
     context = {'thisuser': usr, 'usrimgs': imgs}
     return render(request, 'dogbook/profile.html', context)
 
@@ -111,26 +111,17 @@ def upload_page(request, username):
 def upload(request, username):
     if request.method == "POST":
         # Fetching the form data
-        contents = request.POST["content"]
+        content = request.POST["content"]
         upload_image = request.FILES["upload_image"].name
         author = request.POST['author']
 
         # Saving the information in the database
-        document = models.Image(
-            name = contents,
+        document = Uploads(
+            content = content,
             imagefile = upload_image,
             author = author
         )
+
         document.save()
-        # doc = Image()
-        # doc.author = request.POST.get('author')
-        # doc.name = request.POST['content']
-        # doc.imagefile = upload_image
-        # doc.save()
 
-    # documents = get_object_or_404(Image, username=username)
-    # documents = Image.objects.all()
-    # context = {'my_posts': documents}
-
-    return render(request, 'dogbook/profile.html')
-# HttpResponseRedirect(reverse('dogbook:profile', args=(username,)))
+    return HttpResponseRedirect(reverse('dogbook:profile', args=(username,)))

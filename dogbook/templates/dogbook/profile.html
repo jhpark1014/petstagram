@@ -5,6 +5,10 @@
     <title>프로필 페이지</title>
 </head>
 <body>
+    <script>
+        console.log("====", {{ thisuser.username }})
+    </script>
+
     {{ thisuser.username }}의 프로필 페이지 ~~
     <a href="{% url 'dogbook:pet_register' %}">
         <input type="button" value="내 반려동물 등록하기">
@@ -14,10 +18,9 @@
     </a>
     <form action="{% url 'dogbook:upload_page' thisuser.username %}" method="POST">
         {% csrf_token %}
-{#        <input type="hidden" name="username" value="{{ thisuser.username }}">#}
+        <input type="hidden" name="username" value="{{ thisuser.username }}">
         <input type="submit" value="사진 업로드">
     </form>
-{#    <button onclick="location.href='upload/';">move page</button>#}
 
     <table>
         <tr>
@@ -32,7 +35,7 @@
                 <td>{{ file.name }}</td>
                 <td>{{ file.imagefile.url }}</td>
                 <td>{{ file.upload_date }}</td>
-                <td><img src="{{file.imagefile.url}}"/></td>
+                <td><img src="{{ file.imagefile.url }}" id="hihi" /></td>
             </tr>
         {% endfor %}
     </table>
