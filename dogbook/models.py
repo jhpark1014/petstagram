@@ -34,5 +34,12 @@ class Uploads(models.Model):
     imagefile = models.FileField(upload_to='images/')
     upload_date = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name + ": " + str(self.imagefile)
+    # def __str__(self):
+    #     return self.content + ": " + str(self.imagefile)
+
+
+class Uploads2(models.Model):
+    author = models.CharField(max_length=20)
+    content = models.CharField(max_length=500)
+    imagefile = models.ImageField(upload_to='images/', blank=True, max_length=200)
+    upload_date = models.DateTimeField(auto_now=True)
